@@ -1,0 +1,183 @@
+EVA1_7_ENUM
+
+MySQL Shell 8.0.38
+
+Copyright (c) 2016, 2024, Oracle and/or its affiliates.
+Oracle is a registered trademark of Oracle Corporation and/or its affiliates.
+Other names may be trademarks of their respective owners.
+
+Type '\help' or '\?' for help; '\quit' to exit.
+ MySQL  JS > \sql
+Switching to SQL mode... Commands end with ;
+ MySQL  SQL > \connect --mc root@localhost
+Creating a Classic session to 'root@localhost'
+Fetching global names for auto-completion... Press ^C to stop.
+Your MySQL connection id is 10
+Server version: 8.0.39 MySQL Community Server - GPL
+No default schema selected; type \use <schema> to set one.
+ MySQL  localhost:3306 ssl  SQL > use database tbd_eva
+Incorrect number of arguments for use command, usage:
+\use <schema_name>
+ MySQL  localhost:3306 ssl  SQL > use tbd_eva
+MySQL Error 1049: Unknown database 'tbd_eva'
+ MySQL  localhost:3306 ssl  SQL > use tbd_eva1
+Default schema set to `tbd_eva1`.
+Fetching global names, object names from `tbd_eva1` for auto-completion... Press ^C to stop.
+ MySQL  localhost:3306 ssl  tbd_eva1  SQL > show tables;
++--------------------+
+| Tables_in_tbd_eva1 |
++--------------------+
+| automovil          |
+| mascotas           |
+| peliculas          |
+| student            |
+| tv                 |
++--------------------+
+5 rows in set (0.0414 sec)
+ MySQL  localhost:3306 ssl  tbd_eva1  SQL > select * from peliculas;
++----+--------------+---------+-------+
+| id | titulo       | genero  | clasi |
++----+--------------+---------+-------+
+|  1 | Coraline     | Comedia | PG    |
+|  2 | Titanic      | Comedia | PG13  |
+|  3 | Sharknado    | Drama   | PG13  |
+|  4 | Minioms      | Comedia | PG13  |
+| 20 | Minioms 2    | Comedia | PG13  |
+| 21 | Transformers | accion  | PG    |
++----+--------------+---------+-------+
+6 rows in set (0.0118 sec)
+ MySQL  localhost:3306 ssl  tbd_eva1  SQL > insert into peliculas
+                                         -> (titulo, genero,clasi)
+                                         -> value("Deadpool 3", "Komedia", "Adult");
+Query OK, 1 row affected (0.0216 sec)
+ MySQL  localhost:3306 ssl  tbd_eva1  SQL > select * from peliculas;
++----+--------------+---------+-------+
+| id | titulo       | genero  | clasi |
++----+--------------+---------+-------+
+|  1 | Coraline     | Comedia | PG    |
+|  2 | Titanic      | Comedia | PG13  |
+|  3 | Sharknado    | Drama   | PG13  |
+|  4 | Minioms      | Comedia | PG13  |
+| 20 | Minioms 2    | Comedia | PG13  |
+| 21 | Transformers | accion  | PG    |
+| 22 | Deadpool 3   | Komedia | Adult |
++----+--------------+---------+-------+
+7 rows in set (0.0013 sec)
+ MySQL  localhost:3306 ssl  tbd_eva1  SQL > create table playeras(
+                                         -> id int auto_increment key,
+                                         -> marca varchar(50) not null,
+                                         -> modelo varchar(50) not null,
+                                         -> talla enum("s","m","l","xl", "xxl"));
+Query OK, 0 rows affected (0.0670 sec)
+ MySQL  localhost:3306 ssl  tbd_eva1  SQL > desc playeras;
++--------+------------------------------+------+-----+---------+----------------+
+| Field  | Type                         | Null | Key | Default | Extra          |
++--------+------------------------------+------+-----+---------+----------------+
+| id     | int                          | NO   | PRI | NULL    | auto_increment |
+| marca  | varchar(50)                  | NO   |     | NULL    |                |
+| modelo | varchar(50)                  | NO   |     | NULL    |                |
+| talla  | enum('s','m','l','xl','xxl') | YES  |     | NULL    |                |
++--------+------------------------------+------+-----+---------+----------------+
+4 rows in set (0.0140 sec)
+ MySQL  localhost:3306 ssl  tbd_eva1  SQL > inser into playera (marca, modelo, talla)
+                                         -> value("Calvin Klein", "Oversize", "s");
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'inser into playera (marca, modelo, talla)
+value("Calvin Klein", "Oversize", "s")' at line 1
+ MySQL  localhost:3306 ssl  tbd_eva1  SQL > insert into playera (marca, modelo, talla) value("Calvin Klein", "Oversize", "s");
+ERROR: 1146 (42S02): Table 'tbd_eva1.playera' doesn't exist
+ MySQL  localhost:3306 ssl  tbd_eva1  SQL > insert into playeras (marca, modelo, talla) value("Calvin Klein", "Oversize", "s");
+Query OK, 1 row affected (0.0152 sec)
+ MySQL  localhost:3306 ssl  tbd_eva1  SQL > insert into playeras (marca, modelo, talla) value("Bershka", "Top", "m");
+Query OK, 1 row affected (0.0140 sec)
+ MySQL  localhost:3306 ssl  tbd_eva1  SQL > select * from playeras;
++----+--------------+----------+-------+
+| id | marca        | modelo   | talla |
++----+--------------+----------+-------+
+|  1 | Calvin Klein | Oversize | s     |
+|  2 | Bershka      | Top      | m     |
++----+--------------+----------+-------+
+2 rows in set (0.0011 sec)
+ MySQL  localhost:3306 ssl  tbd_eva1  SQL > create table clientes(
+                                         -> id int auto_increment key,
+                                         -> direccion varchar(50) not null,
+                                         -> telefono varchar(50) not null,
+                                         -> denominacion enum("persona moral","persona fisica) not null);
+                                         "> ^C
+ MySQL  localhost:3306 ssl  tbd_eva1  SQL > create table clientes(
+                                         -> id int auto_increment key,
+                                         -> direccion varchar(50) not null,
+                                         -> telefono varchar(50),
+                                         -> denominacion enum("persona moral","persona fisica") not null);
+Query OK, 0 rows affected (0.0411 sec)
+ MySQL  localhost:3306 ssl  tbd_eva1  SQL > show tables;
++--------------------+
+| Tables_in_tbd_eva1 |
++--------------------+
+| automovil          |
+| clientes           |
+| mascotas           |
+| peliculas          |
+| playeras           |
+| student            |
+| tv                 |
++--------------------+
+7 rows in set (0.0035 sec)
+ MySQL  localhost:3306 ssl  tbd_eva1  SQL > insert into clientes(direccion, telefono, denominacion)
+                                         -> value("Av.Cantera", "614-255-78-24","persona fisica");
+Query OK, 1 row affected (0.0169 sec)
+ MySQL  localhost:3306 ssl  tbd_eva1  SQL > insert into clientes(direccion, telefono, denominacion) value("Av.Nogales", "614-366-64-18","persona moral");
+Query OK, 1 row affected (0.0144 sec)
+ MySQL  localhost:3306 ssl  tbd_eva1  SQL > desc clientes;
++--------------+----------------------------------------+------+-----+---------+----------------+
+| Field        | Type                                   | Null | Key | Default | Extra          |
++--------------+----------------------------------------+------+-----+---------+----------------+
+| id           | int                                    | NO   | PRI | NULL    | auto_increment |
+| direccion    | varchar(50)                            | NO   |     | NULL    |                |
+| telefono     | varchar(50)                            | YES  |     | NULL    |                |
+| denominacion | enum('persona moral','persona fisica') | NO   |     | NULL    |                |
++--------------+----------------------------------------+------+-----+---------+----------------+
+4 rows in set (0.0028 sec)
+ MySQL  localhost:3306 ssl  tbd_eva1  SQL > select * from clientes;
++----+------------+---------------+----------------+
+| id | direccion  | telefono      | denominacion   |
++----+------------+---------------+----------------+
+|  1 | Av.Cantera | 614-255-78-24 | persona fisica |
+|  2 | Av.Nogales | 614-366-64-18 | persona moral  |
++----+------------+---------------+----------------+
+2 rows in set (0.0011 sec)
+ MySQL  localhost:3306 ssl  tbd_eva1  SQL > insert into clientes(direccion, telefono, denominacion) value("Av.Nogales", "614-366-64-18","pm");
+ERROR: 1265 (01000): Data truncated for column 'denominacion' at row 1
+ MySQL  localhost:3306 ssl  tbd_eva1  SQL > show create table clientes;
++----------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table    | Create Table
+
+                                 |
++----------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| clientes | CREATE TABLE `clientes` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `direccion` varchar(50) NOT NULL,
+  `telefono` varchar(50) DEFAULT NULL,
+  `denominacion` enum('persona moral','persona fisica') NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
++----------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.0041 sec)
+ MySQL  localhost:3306 ssl  tbd_eva1  SQL > alter table clientes
+                                         -> add rfc varchar(13)
+                                         -> after nombre;
+ERROR: 1054 (42S22): Unknown column 'nombre' in 'clientes'
+ MySQL  localhost:3306 ssl  tbd_eva1  SQL > alter table clientes add rfc varchar(13) after id;
+Query OK, 0 rows affected (0.0340 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  tbd_eva1  SQL > select * froma clientes;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'froma clientes' at line 1
+ MySQL  localhost:3306 ssl  tbd_eva1  SQL > select * from clientes;
++----+------+------------+---------------+----------------+
+| id | rfc  | direccion  | telefono      | denominacion   |
++----+------+------------+---------------+----------------+
+|  1 | NULL | Av.Cantera | 614-255-78-24 | persona fisica |
+|  2 | NULL | Av.Nogales | 614-366-64-18 | persona moral  |
++----+------+------------+---------------+----------------+
+2 rows in set (0.0006 sec)
+ MySQL  localhost:3306 ssl  tbd_eva1  SQL >
